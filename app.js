@@ -84,6 +84,9 @@ io.sockets.on('connection', function(socket){
 					console.log('hest');
 					io.sockets.in(socket.room).emit('match found',{location: GetMeetLocation(), codeword: GetCodeWord()});
 					callback("YOLO");
+
+					
+
 					return;
 				}
 			}
