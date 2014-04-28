@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <title>Dayz buddy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <!-- Loading Bootstrap -->
 <!--     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
  -->
@@ -14,8 +15,6 @@
 
 <!--     <link rel="shortcut icon" href="images/favicon.ico">
  -->
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
     <!--[if lt IE 9]>
@@ -168,7 +167,6 @@ showQuotation();
 
 </script>
 
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
 
@@ -180,13 +178,13 @@ showQuotation();
             var $chatForm = $('#SubmitMessage');
             var $messageBox = $('#message');
             var $users = $('#users');
-            // var $chat = $('#chat');
             var $chat = $('#chatWrap');
             
             // Login
 
             $nickForm.submit(function(e){
                 e.preventDefault();
+
                 socket.emit('new user', $nickBox.val(), function(data) {
                     if(data){
                         $('#nickWrap').hide();
@@ -219,21 +217,21 @@ showQuotation();
             // Print message
 
             socket.on('match found', function(data){
-                $chat.append('<b> CUPIDBOT :</b> botmessage <br/> <b>Location:</b>'+ data.location.name + '<a target="_blank" href="'+data.location.coords+'">Map</a><br/> <b>Codeword:</b>' + data.codeword );
+                $chat.append('<b> CUPIDBOT:</b> botmessage <br/> <b>Location:</b> '+ data.location.name + ' <a target="_blank" href="  '+data.location.coords+'">Map</a><br/> <b>Codeword:</b> ' + data.codeword +'<br>');
+
             });
 
             socket.on('send message', function(data){
                 $chat.append('<p><b>' + data.username + ': </b>' + data.msg + "</p>");
-                $chat.animate({scrollTop: $chat[0].scrollHeight}, 800);
+                $chat.stop().animate({scrollTop: $chat[0].scrollHeight}, 800);
             });
         });
 
-
+    
     </script>
 
-
-
     <!-- Load JS here for greater good =============================-->
+
     <script src="js/jquery-1.8.3.min.js"></script>
     <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
     <script src="js/jquery.ui.touch-punch.min.js"></script>
