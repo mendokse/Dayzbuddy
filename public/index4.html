@@ -1,0 +1,104 @@
+<html>
+<head>
+	<title>Chat with socket.io and node.js</title>
+	<style>
+		#chat{
+			height:200px;
+			width: 200px;
+
+		}
+		#contentWrap{
+			display: none;
+		}
+		#chatWrap{
+			float: left;
+			border: 1px #000 solid;
+		}
+	</style>
+</head>
+<body>
+	<div id="nickWrap">
+		<p>Enter username:</p>
+		<p id="nickError"></p>
+		<form id="setNick">
+			<input size="35" id="nickname"></input><br><br>
+			<input type="submit"></input>
+		</form>
+	</div>
+
+	<div id="contentWrap">
+		<div id="chatWrap">
+			<div id="chat"></div>
+		</div>
+
+		<div id="users"></div>
+		<p>Enter message:</p>
+		<form id="SubmitMessage">
+			<input size="35" id="message"></input><br><br>
+		<input type="submit"></input>
+		</form>
+
+	</div>
+	
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		jQuery(function($){
+			var socket = io.connect();
+			var $nickForm = $('#setNick');
+			var $nickError = $('#nickError');
+			var $nickBox = $('#nickname');
+			var $chatForm = $('#SubmitMessage');
+			var $messageBox = $('#message');
+			var $users = $('#users');
+			var $chat = $('#chat');
+			
+			// Login
+
+			$nickForm.submit(function(e){
+				e.preventDefault();
+				socket.emit('new user', $nickBox.val(), function(data) {
+					if(data){
+						$('#nickWrap').hide();
+						$('#contentWrap').show();
+					}
+				});
+
+				$nickBox.val('');
+
+			});
+			
+			// Message
+
+			$chatForm.submit(function(e){
+				
+		    	if (!$messageBox.val()){
+		    		
+		    		e.preventDefault();
+		    		$messageBox.val("")
+
+		    	} else{
+		    		
+		    		e.preventDefault();
+					socket.emit('new message', $messageBox.val());
+
+				}
+
+			});
+			
+			// Print message
+
+			socket.on('match found', function(data){
+				$chat.append('<b> CUPIDBOT :</b> botmessage <br/> <b>Location:</b>'+ data.location.name + '<a target="_blank" href="'+data.location.coords+'">Map</a><br/> <b>Codeword:</b>' + data.codeword );
+			});
+
+			socket.on('send message', function(data){
+				$messageBox.val("");
+				$chat.append('<b>' + data.username + ': </b>' + data.msg + "<br/>");
+			});
+		});
+
+	</script>
+
+</body>
+</html>

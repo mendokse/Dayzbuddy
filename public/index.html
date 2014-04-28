@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Flat UI Free</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Loading Bootstrap -->
+<!--     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+ -->
+    <!-- Loading Flat UI -->
+    <link href="css/flat-ui.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/body.css">
+
+    <link rel="shortcut icon" href="images/favicon.ico">
+
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+    <div class="bar0">
+        <div class="top-text"><h1>Dayz buddy</h1></div>
+    </div>
+
+    <div class="bar-top">
+    </div>
+    
+    <div class="bar1">
+        <div class="find-buddy-wrapper" id="nickWrap">
+            <div class="login-form">
+                <h3>Tired of playing solo?</h3>
+                <p>This app will match you with another survivor and give you a suggested meetup location. Use the chat to decide wich server you will play on.</p>
+                <div class="form-group">
+
+                    <form id="setNick">
+             
+                    <input autocomplete="off" type="text" class="form-control login-field" value="" placeholder="Enter your ingame name" id="nickname" />          
+
+                    <label class="login-field-icon fui-user" for="login-name"></label>
+                    <br>
+                    <a onclick="$(this).closest('form').submit(); return false;" class="btn btn-primary btn-lg btn-block" href="#">Find buddy</a>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
+            <div id="contentWrap">
+            <div class="login-form-white" id="chatWrap">
+                <div id="chat" class="chatbox"></div>
+            </div>
+
+                <div class="form-group">
+                    <br>
+                    <form id="SubmitMessage">
+                    
+                    <label class="login-field-icon fui-user" for="login-name"></label>
+
+                    <input autocomplete="off" type="text" class="form-control login-field" value="" placeholder="Chat" id="message" />          
+
+
+                    </form>
+
+                </div>
+
+
+
+<!--             <div id="users"></div>
+            <p>Enter message:</p>
+            <form id="SubmitMessage">
+                <input size="35" id="message"></input><br><br>
+            <input type="submit"></input>
+            </form> -->
+
+        </div>
+
+    </div>
+
+
+
+    <div class="bar2">
+        
+
+        <div class="dayz-role-wrapper">
+
+            <h3 class="dayz-role-wrapper-text">Try some roleplay</h3>
+            
+            <p class="dayz-role-wrapper-text">Get some stories worth posting on the interwebz and rake in that sweet sweet karma.</p>
+
+            <div class="login-form">
+                <p id="quotation"></p>
+            </div>
+
+            <br>
+            <a onclick="showQuotation(); return false;" class="btn btn-primary btn-lg btn-block" href="#">Randomize</a>
+            
+
+        </div>
+    </div>
+    <!-- /.container -->
+
+<script>
+var Quotation = [
+        "<h5>Shephard</h5> <p>Run up and down the cost escorting newbies to their destinations, create as big of a flock as you can, trying to feed and gear all of them.</p>",
+
+        "<h5>Stick Up Burglar</h5> <p>Rob everyone you see at gunpoint but kill no one. The plan is to get their loot and get out as quickly as possible. If they run away, try to kill them, but don't pursue, it's about the loot, not the kills.</p>",
+
+        "<h5>Bandit Hunter</h5> <p>Slink around the coast, sticking to the shadows. Stalk those that prey on the weak and end them. Take some spoils for yourself, but try to give some away.</p>",
+
+        "<h5>Career Sociopath</h5> <p>Make friends with people as means to a selfish end. Use them to get what you want, and kill them when they become inconvenient. You're here to serve yourself, and manipulate those around you into getting your way.</p>",
+
+        "<h5>Combat Medic</h5> <p>Gather supplies for the sole purpose of healing people. Offer to help out a large squad of people (find them). Do not carry a weapon except for a melee weapon.</p>",
+
+        "<h5>Bloodthirsty Psychopath</h5> <p>Everyone you see you must immediately try to kill while shouting insane, terrifying babble over your microphone.</p>",
+
+        "<h5>Resident Super Hero</h5> <p>Keep the scum out of a city of your choice: Berezino, Elektro, or Cherno. Protect the weak, destroy the wicked. You are never allowed to leave the city. Come up with a persona.</p>",
+
+        "<h5>Boxer</h5> <p>Challenge anyone and everyone to boxing. No weapons allowed. Gotta kill zombies this way too.</p>",
+
+        "<h5>Cowboy</h5> <p>Find two revolvers, challenge everyone to 10-pace revolver duels.</p>",
+
+        "<h5>Wildcard</h5> <p>Do whatever.</p>"
+    ],
+    Q = Quotation.length;
+
+function showQuotation(){
+    var whichQuotation = Math.round(Math.random()*(Q-1));
+
+    document.getElementById("quotation").innerHTML = Quotation[whichQuotation];
+}
+
+showQuotation();
+</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-47339612-1']);
+  _gaq.push(['_setDomainName', 'mendokse.github.io']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+
+        jQuery(function($){
+            var socket = io.connect();
+            var $nickForm = $('#setNick');
+            var $nickError = $('#nickError');
+            var $nickBox = $('#nickname');
+            var $chatForm = $('#SubmitMessage');
+            var $messageBox = $('#message');
+            var $users = $('#users');
+            var $chat = $('#chat');
+            
+            // Login
+
+            $nickForm.submit(function(e){
+                e.preventDefault();
+                socket.emit('new user', $nickBox.val(), function(data) {
+                    if(data){
+                        $('#nickWrap').hide();
+                        $('#contentWrap').show();
+                    }
+                });
+
+                $nickBox.val('');
+
+            });
+            
+            // Message
+
+            $chatForm.submit(function(e){
+                
+                if (!$messageBox.val()){
+                    
+                    e.preventDefault();
+                    $messageBox.val("")
+
+                } else{
+                    
+                    e.preventDefault();
+                    socket.emit('new message', $messageBox.val());
+
+                }
+
+            });
+            
+            // Print message
+
+            socket.on('match found', function(data){
+                $chat.append('<b> CUPIDBOT :</b> botmessage <br/> <b>Location:</b>'+ data.location.name + '<a target="_blank" href="'+data.location.coords+'">Map</a><br/> <b>Codeword:</b>' + data.codeword );
+            });
+
+            socket.on('send message', function(data){
+                $messageBox.val("");
+                $chat.append('<b>' + data.username + ': </b>' + data.msg + "<br/>");
+            });
+        });
+
+    </script>
+
+    <!-- Load JS here for greater good =============================-->
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="js/jquery.ui.touch-punch.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-select.js"></script>
+    <script src="js/bootstrap-switch.js"></script>
+    <script src="js/flatui-checkbox.js"></script>
+    <script src="js/flatui-radio.js"></script>
+    <script src="js/jquery.tagsinput.js"></script>
+    <script src="js/jquery.placeholder.js"></script>
+  </body>
+</html>
