@@ -52,6 +52,12 @@
             </div>
         </div>
 
+        <div class="contentWrapper" id="loadWrap">
+            <img src="img/loading.png" class="load-img"></img>
+            <center><h6><b>Finding buddy</b></h6></center>
+        </div>
+
+
         <div class="contentWrapper" id="contentWrap">
             
             <div class="chat" id="chatWrap"></div>
@@ -117,6 +123,7 @@
 
             <div class="login-form">
                 <p id="quotation"></p>
+                <p id="quotation2"></p>
             </div>
 
         </div>
@@ -124,33 +131,65 @@
     <!-- /.container -->
 
 <script>
+
+// Role
+
 var Quotation = [
-        "<h5>Shephard</h5> <p>Run up and down the cost escorting newbies to their destinations, create as big of a flock as you can, trying to feed and gear all of them.</p>",
+        "<h5>Drunk russian</h5> <p>You have consumed enough alchol to kill an ordinary man. But you are russian, yes. Behave irrationally and have moodswings</p>",
 
-        "<h5>Stick Up Burglar</h5> <p>Rob everyone you see at gunpoint but kill no one. The plan is to get their loot and get out as quickly as possible. If they run away, try to kill them, but don't pursue, it's about the loot, not the kills.</p>",
+        "<h5>Goldfish</h5> <p>You have extremly short memory. You have extremly short memory. you hav.. oh a cookie</p>",
 
-        "<h5>Bandit Hunter</h5> <p>Slink around the coast, sticking to the shadows. Stalk those that prey on the weak and end them. Take some spoils for yourself, but try to give some away.</p>",
+        "<h5>Redneck</h5> <p>You are a below average intelligent person with questionable morals and a you are proud about it. You are from murica and you fucking hate commies.</p>",
 
-        "<h5>Career Sociopath</h5> <p>Make friends with people as means to a selfish end. Use them to get what you want, and kill them when they become inconvenient. You're here to serve yourself, and manipulate those around you into getting your way.</p>",
+        "<h5>Psychopath</h5> <p>You are a fucking crazy, insane and a heavy breathing maniac who scare the living shit out of people.</p>",
 
-        "<h5>Combat Medic</h5> <p>Gather supplies for the sole purpose of healing people. Offer to help out a large squad of people (find them). Do not carry a weapon except for a melee weapon.</p>",
+        "<h5>Religous</h5> <p>Every word of God is pure; He is a shield to those who put their trust in Him. Prov. 30:5, Live your life as a true christian.</p>",
 
-        "<h5>Bloodthirsty Psychopath</h5> <p>Everyone you see you must immediately try to kill while shouting insane, terrifying babble over your microphone.</p>",
+        "<h5>Child</h5> <p>Scared,lonely and your parents are long gone.</p>",
 
-        "<h5>Resident Super Hero</h5> <p>Keep the scum out of a city of your choice: Berezino, Elektro, or Cherno. Protect the weak, destroy the wicked. You are never allowed to leave the city. Come up with a persona.</p>",
+        "<h5>Cowboy</h5> <p>You are a leathal gentleman who charm everyone with your southern accent.</p>",
 
-        "<h5>Boxer</h5> <p>Challenge anyone and everyone to boxing. No weapons allowed. Gotta kill zombies this way too.</p>",
+        "<h5>Military</h5> <p>Everything you do is done with extreme attetion to detail. And with your particular set of skills you execute missions without fail.</p>",
 
-        "<h5>Cowboy</h5> <p>Find two revolvers, challenge everyone to 10-pace revolver duels.</p>",
+        "<h5>Royal</h5> <p>Your royal blood goes back for generations. The other survivors are of lesser importance, pessants if u will. Use them to get what you want. </p>",
 
-        "<h5>Wildcard</h5> <p>Do whatever.</p>"
+        "<h5>Flamboyant</h5> <p>You are the most dashing survivor in chernarous and with your excellent sence for fashion you fight for equal rights for everyone.</p>"
     ],
     Q = Quotation.length;
 
+// Misson
+    var Quotation2 = [
+        "<h5>Misson: Bookseller</h5> <p>Collect books and setup up shop in a town or become a traveling salesmen.</p>",
+
+        "<h5>Misson: Storyteller</h5> <p>Find a gaslamp and gather a group of random people on a nighttime server. Proceed to setup camp somewhere cozy and tell stories</p>",
+
+        "<h5>Misson: Robber</h5> <p>Rob people for anything of value, but honor your profession and only use violence when necessary.</p>",
+
+        "<h5>Misson: Party starter</h5> <p>Become the partystarter. Play music in direct and do the wiggle dance, gather as many people you can.</p>",
+
+        "<h5>Misson: Fortuneteller</h5> <p>Make you rway thru chernerous as a fortuneteller offering your serivec for some beans</p>",
+
+        "<h5>Misson: Salesmen</h5> <p>Hoard up with the mountain backpack and setup shop in a big city</p>",
+
+        "<h5>Misson: Superhero</h5> <p>Keep the scum out of a city of your choice: Berezino, Elektro, or Cherno. Protect the weak, destroy the wicked.</p>",
+
+        "<h5>Misson: Boxer</h5> <p>Challenge anyone and everyone to boxing. No weapons allowed.</p>",
+
+        "<h5>Misson: Shepard</h5> <p>Roam the coast and gather all the bambies/freshspawns on the way. Try to get as big of a group you can.</p>",
+
+       "<h5>Misson: Medic</h5> <p>Collect medical gear and go about helping players with food, bandages, blood etc.</p>",
+
+        "<h5>Misson: Buddist</h5> <p>Material things have no value for you. Gather stuff and give it to people who cross your path.</p>"
+    ],
+    Q2 = Quotation.length;
+
 function showQuotation(){
     var whichQuotation = Math.round(Math.random()*(Q-1));
+    var whichQuotation2 = Math.round(Math.random()*(Q2-1));
 
     document.getElementById("quotation").innerHTML = Quotation[whichQuotation];
+
+    document.getElementById("quotation2").innerHTML = Quotation2[whichQuotation2];
 }
 
 showQuotation();
@@ -185,15 +224,19 @@ showQuotation();
             $nickForm.submit(function(e){
                 e.preventDefault();
 
-                socket.emit('new user', $nickBox.val(), function(data) {
-                    if(data){
-                        $('#nickWrap').hide();
-                        $('#contentWrap').show();
-                    }
-                });
+                if ($nickBox.val().trim()){
+                    socket.emit('new user', $nickBox.val(), function(data) {
+                        if(data){
+                            $('#nickWrap').hide();
+                            $('#contentWrap').show();
+                         }
+                     });
 
-                $nickBox.val('');
-
+                    $nickBox.val('');
+                } else if ($nickBox.val() && !$nickBox.val().trim()) {
+                    $nickBox.val('');
+                }
+                
             });
             
             // Message
@@ -217,7 +260,7 @@ showQuotation();
             // Print message
 
             socket.on('match found', function(data){
-                $chat.append('<b> CUPIDBOT:</b> botmessage <br/> <b>Location:</b> '+ data.location.name + ' <a target="_blank" href="  '+data.location.coords+'">Map</a><br/> <b>Codeword:</b> ' + data.codeword +'<br>');
+                $chat.append('<b> CupidBOT:</b> Match found, chatroom initialized <br/> <b>Suggested meetup location:</b> '+ data.location.name + ' <a target="_blank" href="  '+data.location.coords+'">Map</a><br>Now kiss!');
 
             });
 

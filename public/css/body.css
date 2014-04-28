@@ -55,6 +55,30 @@ body{
 	height: 350px;
 }
 
+@keyframes float {
+
+  	0% { -webkit-transform: translateY(0px); }
+  	50% { -webkit-transform: translateY(10px); }
+  	100% { -webkit-transform: translateY(0px); }
+}
+
+#loadWrap {
+	display: none;
+}
+
+.load-img {
+    display: block;
+    padding-top: 160px;
+    margin-left: auto;
+    margin-right: auto;
+	width: 120px;
+	height:120px;
+	animation-name: float;
+	animation-duration: 1.5s;
+	animation-iteration-count: infinite;
+	animation-timing-function: ease-in-out;
+}
+
 @media only screen and (max-width:660px) {
 .top-text {
 	position: absolute;

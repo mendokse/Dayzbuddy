@@ -50,21 +50,6 @@ function GetMeetLocation(){
 
 // Randomized codeword for teams
 
-var Codeword = [
-	"kod1",
-	"kod2",
-	"kod3",
-	"kod4",
-	"kod5",
-	"kod6",
-	"kod7",
-	"kod8"
-	];
-
-function GetCodeWord(){
-	return Codeword[Math.round(Math.random()*(Codeword.length-1))];
-}
-
 io.sockets.on('connection', function(socket){
 	socket.on('new user', function(data, callback){
 		var rooms = io.sockets.manager.rooms,
@@ -82,10 +67,10 @@ io.sockets.on('connection', function(socket){
 					socket.room = room;
 					socket.join(room);
 					console.log('hest');
-					io.sockets.in(socket.room).emit('match found',{location: GetMeetLocation(), codeword: GetCodeWord()});
+					io.sockets.in(socket.room).emit('match found',{location: GetMeetLocation()});
 					callback("YOLO");
 
-					
+
 
 					return;
 				}
