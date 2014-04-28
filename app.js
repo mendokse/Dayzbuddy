@@ -37,6 +37,10 @@ var MeetLocation = [
 		coords: "http://dayzdb.com/map/chernarusplus#7.129.083"
 	},
 	{
+		name: "Cap golova", 
+		coords: "http://dayzdb.com/map/chernarusplus#7.083.129"
+	},
+	{
 		name: "Farm above Three valleys", 
 		coords: "http://dayzdb.com/map/chernarusplus#6.123.100"
 	}
