@@ -10,6 +10,12 @@ app.configure(function () {
     app.use(express.static(__dirname + '/public'));
 });
 
+// server.listen(9000);
+
+// app.configure(function () {
+//     app.set('port', 9000);
+//     app.use(express.static(__dirname + '/public'));
+// });
 
 app.get('/', function(req, res){
 	res.sendfile(__dirname + '/index.html');

@@ -1,11 +1,12 @@
 {
-	"name":"chat",
-	"version":"0.0.1",
-	"dependencies":{
-		"socket.io":"0.9.16",
-		"express":"3.2.6"
-	},
-	"engines": {
-    	"node": "0.10.x"
-  	}
+  "name": "chat",
+  "version": "0.0.1",
+  "dependencies": {
+    "socket.io": "0.9.16",
+    "express": "3.2.6",
+    "html-entities": "~1.0.10"
+  },
+  "engines": {
+    "node": "0.10.x"
+  }
 }

@@ -37,28 +37,45 @@
             <div class="login-form">
                 <h3>Tired of playing solo?</h3>
                 <p>This app will match you with another survivor and give you a suggested meetup location. Use the chat to decide wich server you will play on.</p>
-                <div class="form-group">
+                    <div class="form-group">
 
-                    <form id="setNick">
-             
-                    <input autocomplete="off" type="text" class="form-control login-field" value="" placeholder="Enter your ingame name" id="nickname" />          
+                        <form id="setNick">
+                 
+                        <input autocomplete="off" type="text" class="form-control login-field" value="" placeholder="Enter your ingame name" id="nickname" />          
 
-                    <label class="login-field-icon fui-user" for="login-name"></label>
-                    <br>
-                    <a onclick="$(this).closest('form').submit(); return false;" class="btn btn-primary btn-lg btn-block" href="#">Find buddy</a>
+                        <label class="login-field-icon fui-user" for="login-name"></label>
+                        <br>
+                        <a onclick="$(this).closest('form').submit(); return false;" class="btn btn-primary btn-lg btn-block" href="#">Find buddy</a>
 
-                    </form>
+                        </form>
 
-                </div>
+                    </div>
             </div>
         </div>
 
+        <div class="contentWrapper" id="contentWrap">
+            
+            <div class="chat" id="chatWrap"></div>
+            <div class="login-form">
 
-            <div id="contentWrap">
-            <div class="login-form-white" id="chatWrap">
-                <div id="chat" class="chatbox"></div>
+                    <div class="form-group">
+
+                        <form id="SubmitMessage">
+                 
+                        <input autocomplete="off" type="text" class="form-control login-field" value="" placeholder="Chat" id="message" />          
+
+                        <label class="login-field-icon fui-chat" for="login-name"></label>
+                        <br>
+                       
+
+                        </form>
+
+                    </div>
             </div>
-
+        </div>
+<!--             <div id="contentWrap" >
+                <div class="login-form-white" id="chatWrap">
+                </div>
                 <div class="form-group">
                     <br>
                     <form id="SubmitMessage">
@@ -70,7 +87,7 @@
 
                     </form>
 
-                </div>
+                </div> -->
 
 
 
@@ -81,7 +98,7 @@
             <input type="submit"></input>
             </form> -->
 
-        </div>
+            </div>
 
     </div>
 
@@ -96,13 +113,12 @@
             
             <p class="dayz-role-wrapper-text">Get some stories worth posting on the interwebz and rake in that sweet sweet karma.</p>
 
+            <a onclick="showQuotation(); return false;" class="btn btn-primary btn-lg btn-block" href="#">Randomize</a>
+            <br><br>
+
             <div class="login-form">
                 <p id="quotation"></p>
             </div>
-
-            <br>
-            <a onclick="showQuotation(); return false;" class="btn btn-primary btn-lg btn-block" href="#">Randomize</a>
-            
 
         </div>
     </div>
@@ -164,7 +180,8 @@ showQuotation();
             var $chatForm = $('#SubmitMessage');
             var $messageBox = $('#message');
             var $users = $('#users');
-            var $chat = $('#chat');
+            // var $chat = $('#chat');
+            var $chat = $('#chatWrap');
             
             // Login
 
@@ -194,7 +211,7 @@ showQuotation();
                     
                     e.preventDefault();
                     socket.emit('new message', $messageBox.val());
-
+                    $messageBox.val("");
                 }
 
             });
@@ -206,12 +223,15 @@ showQuotation();
             });
 
             socket.on('send message', function(data){
-                $messageBox.val("");
-                $chat.append('<b>' + data.username + ': </b>' + data.msg + "<br/>");
+                $chat.append('<p><b>' + data.username + ': </b>' + data.msg + "</p>");
+                $chat.animate({scrollTop: $chat[0].scrollHeight}, 800);
             });
         });
 
+
     </script>
+
+
 
     <!-- Load JS here for greater good =============================-->
     <script src="js/jquery-1.8.3.min.js"></script>
