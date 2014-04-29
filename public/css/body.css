@@ -37,12 +37,13 @@ body{
 	padding-left: 15px;
 	padding-top: 15px;
 	overflow: scroll;
+	overflow-x:hidden;
 	box-sizing:border-box;
+
 
 }
 
 .chat p {
-
 	margin-bottom: 0;
 }
 
