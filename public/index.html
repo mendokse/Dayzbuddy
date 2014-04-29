@@ -218,6 +218,8 @@ showQuotation();
             var $messageBox = $('#message');
             var $users = $('#users');
             var $chat = $('#chatWrap');
+            var $loader = $('#loadWrap');
+            var $chatWrap = $('#contentWrap')
             
             // Login
 
@@ -228,7 +230,7 @@ showQuotation();
                     socket.emit('new user', $nickBox.val(), function(data) {
                         if(data){
                             $('#nickWrap').hide();
-                            $('#contentWrap').show();
+                            $loader.show();
                          }
                      });
 
@@ -256,10 +258,15 @@ showQuotation();
                 }
 
             });
+
+            socket.on('match found', function() {
+                $loader.hide();
+                $chatWrap.show();
+             });
             
             // Print message
 
-            socket.on('match found', function(data){
+            socket.on('broadcast', function(data){
                 $chat.append('<b> CupidBOT:</b> Match found, chatroom initialized <br/> <b>Suggested meetup location:</b> '+ data.location.name + ' <a target="_blank" href="  '+data.location.coords+'">Map</a><br>Now kiss!');
 
             });
