@@ -30,7 +30,7 @@
 
     <div class="bar-top">
     </div>
-    
+
     <div class="bar1">
         <div class="find-buddy-wrapper" id="nickWrap">
             <div class="login-form">
@@ -39,8 +39,8 @@
                     <div class="form-group">
 
                         <form id="setNick">
-                 
-                        <input autocomplete="off" type="text" class="form-control login-field" value="" placeholder="Enter your ingame name" id="nickname" />          
+
+                        <input autocomplete="off" type="text" class="form-control login-field" value="" placeholder="Enter your ingame name" id="nickname" />
 
                         <label class="login-field-icon fui-user" for="login-name"></label>
                         <br>
@@ -59,19 +59,19 @@
 
 
         <div class="contentWrapper" id="contentWrap">
-            
+
             <div class="chat" id="chatWrap"></div>
             <div class="login-form">
 
                     <div class="form-group">
 
                         <form id="SubmitMessage">
-                 
-                        <input autocomplete="off" type="text" class="form-control login-field" value="" placeholder="Chat" id="message" />          
+
+                        <input autocomplete="off" type="text" class="form-control login-field" value="" placeholder="Chat" id="message" />
 
                         <label class="login-field-icon fui-chat" for="login-name"></label>
                         <br>
-                       
+
 
                         </form>
 
@@ -84,10 +84,10 @@
                 <div class="form-group">
                     <br>
                     <form id="SubmitMessage">
-                    
+
                     <label class="login-field-icon fui-user" for="login-name"></label>
 
-                    <input autocomplete="off" type="text" class="form-control login-field" value="" placeholder="Chat" id="message" />          
+                    <input autocomplete="off" type="text" class="form-control login-field" value="" placeholder="Chat" id="message" />
 
 
                     </form>
@@ -110,12 +110,12 @@
 
 
     <div class="bar2">
-        
+
 
         <div class="dayz-role-wrapper">
 
             <h3 class="dayz-role-wrapper-text">Try some roleplay</h3>
-            
+
             <p class="dayz-role-wrapper-text">Get some stories worth posting on the interwebz and rake in that sweet sweet karma.</p>
 
             <a onclick="showQuotation(); return false;" class="btn btn-primary btn-lg btn-block" href="#">Randomize</a>
@@ -220,7 +220,28 @@ showQuotation();
             var $chat = $('#chatWrap');
             var $loader = $('#loadWrap');
             var $chatWrap = $('#contentWrap')
-            
+
+
+            // Sanitize user input
+
+            (function($) {
+             $.sanitize = function(input) {
+                var SubmitMessage = input.replace(/<script[^>]*?>.*?<\/script>/gi, '').
+                    replace(/<[\/\!]*?[^<>]*?>/gi, '').
+                    replace(/<style[^>]*?>.*?<\/style>/gi, '').
+                    replace(/<![\s\S]*?--[ \t\n\r]*>/gi, '');
+                    return SubmitMessage;
+                };
+                })(jQuery);
+
+                $(function() {
+                    $('#sanitize').click(function() {
+                        var $input = $('#input').val();
+                        $('#SubmitMessage').text($.sanitize($input));
+                    });
+
+                });
+
             // Login
 
             $nickForm.submit(function(e){
@@ -238,20 +259,20 @@ showQuotation();
                 } else if ($nickBox.val() && !$nickBox.val().trim()) {
                     $nickBox.val('');
                 }
-                
+
             });
-            
+
             // Message
 
             $chatForm.submit(function(e){
-                
+
                 if (!$messageBox.val()){
-                    
+
                     e.preventDefault();
                     $messageBox.val("")
 
                 } else{
-                    
+
                     e.preventDefault();
                     socket.emit('new message', $messageBox.val());
                     $messageBox.val("");
@@ -263,7 +284,7 @@ showQuotation();
                 $loader.hide();
                 $chatWrap.show();
              });
-            
+
             // Print message
 
             socket.on('broadcast', function(data){
@@ -277,7 +298,8 @@ showQuotation();
             });
         });
 
-    
+
+
     </script>
 
     <!-- Load JS here for greater good =============================-->
