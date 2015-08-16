@@ -236,23 +236,23 @@ showQuotation();
 
             // Sanitize user input
 
-            (function($) {
-             $.sanitize = function(input) {
-                var SubmitMessage = input.replace(/<script[^>]*?>.*?<\/script>/gi, '').
-                    replace(/<[\/\!]*?[^<>]*?>/gi, '').
-                    replace(/<style[^>]*?>.*?<\/style>/gi, '').
-                    replace(/<![\s\S]*?--[ \t\n\r]*>/gi, '');
-                    return SubmitMessage;
-                };
-                })(jQuery);
+            // (function($) {
+            //  $.sanitize = function(input) {
+            //     var SubmitMessage = input.replace(/<script[^>]*?>.*?<\/script>/gi, '').
+            //         replace(/<[\/\!]*?[^<>]*?>/gi, '').
+            //         replace(/<style[^>]*?>.*?<\/style>/gi, '').
+            //         replace(/<![\s\S]*?--[ \t\n\r]*>/gi, '');
+            //         return SubmitMessage;
+            //     };
+            //     })(jQuery);
 
-                $(function() {
-                    $('#sanitize').click(function() {
-                        var $input = $('#input').val();
-                        $('#SubmitMessage').text($.sanitize($input));
-                    });
+            //     $(function() {
+            //         $('#sanitize').click(function() {
+            //             var $input = $('#input').val();
+            //             $('#SubmitMessage').text($.sanitize($input));
+            //         });
 
-                });
+            //     });
 
             // Login
 
