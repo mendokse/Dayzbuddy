@@ -133,10 +133,11 @@
 
     <!-- Load JS here for greater good =============================-->
 
+    <script src='bundles/index.bundle.js'></script>
     <script src="js/jquery-1.8.3.min.js"></script>
     <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
     <script src="js/jquery.ui.touch-punch.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="vendor/bootstrap.min.js"></script>
     <script src="js/bootstrap-select.js"></script>
     <script src="js/bootstrap-switch.js"></script>
     <script src="js/flatui-checkbox.js"></script>
@@ -144,175 +145,6 @@
     <script src="js/jquery.tagsinput.js"></script>
     <script src="js/jquery.placeholder.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-
-// Role
-
-var Quotation = [
-        "<h5>Character: Drunk russian</h5> <p>You have consumed enough alcohol to kill an ordinary man. But you are russian, yes. Behave irrationally and have moodswings</p>",
-
-        "<h5>Character: Goldfish</h5> <p>You have extremely short memory. You have extremly short memory. you hav.. oh a cookie</p>",
-
-        "<h5>Character: Redneck</h5> <p>You are a below average intelligent person with questionable morals and a you are proud about it. You are from murica and you fucking hate commies.</p>",
-
-        "<h5>Character: Psychopath</h5> <p>You are a fucking crazy, insane and a heavy breathing maniac who scare the living shit out of people.</p>",
-
-        "<h5>Character: Religous</h5> <p>Every word of God is pure; He is a shield to those who put their trust in Him. Prov. 30:5, Live your life as a true christian.</p>",
-
-        "<h5>Character: Child</h5> <p>Scared,lonely and your parents are long gone.</p>",
-
-        "<h5>Character: Cowboy</h5> <p>You are a leathal gentleman who charm everyone with your southern accent.</p>",
-
-        "<h5>Character: Military</h5> <p>Everything you do is done with extreme attention to details. And with your particular set of skills you execute missions without fail.</p>",
-
-        "<h5>Character: Royal</h5> <p>Your royal blood goes back for generations. The other survivors are of lesser importance, pessants if u will. Use them to get what you want. </p>",
-
-        "<h5>Character: Flamboyant</h5> <p>You are the most dashing survivor in chernarus and with your excellent sence for fashion you fight for equal rights for everyone.</p>"
-    ],
-    Q = Quotation.length;
-
-// Misson
-    var Quotation2 = [
-        "<h5>Misson: Bookseller</h5> <p>Collect books and setup up shop in a town or become a traveling salesmen.</p>",
-
-        "<h5>Misson: Storyteller</h5> <p>Find a gaslamp and gather a group of random people on a nighttime server. Proceed to setup camp somewhere cozy and tell stories</p>",
-
-        "<h5>Misson: Robber</h5> <p>Rob people for anything of value, but honor your profession and only use violence when necessary.</p>",
-
-        "<h5>Misson: Party starter</h5> <p>Become the partystarter. Play music in direct and do the wiggle dance, gather as many people you can.</p>",
-
-        "<h5>Misson: Fortuneteller</h5> <p>Make your way thru chernarus as a fortuneteller offering your service for some beans</p>",
-
-        "<h5>Misson: Salesmen</h5> <p>Hoard up with the mountain backpack and setup shop in a big city</p>",
-
-        "<h5>Misson: Superhero</h5> <p>Keep the scum out of a city of your choice: Berezino, Elektro, or Cherno. Protect the weak, destroy the wicked.</p>",
-
-        "<h5>Misson: Boxer</h5> <p>Challenge anyone and everyone to boxing. No weapons allowed.</p>",
-
-        "<h5>Misson: Shepard</h5> <p>Roam the coast and gather all the bambies/freshspawns on the way. Try to get as big of a group you can.</p>",
-
-       "<h5>Misson: Medic</h5> <p>Collect medical gear and go about helping players with food, bandages, blood etc.</p>",
-
-        "<h5>Misson: Buddist</h5> <p>Material things have no value for you. Gather stuff and give it to people who cross your path.</p>"
-    ],
-    Q2 = Quotation.length;
-
-function showQuotation(){
-    var whichQuotation = Math.round(Math.random()*(Q-1));
-    var whichQuotation2 = Math.round(Math.random()*(Q2-1));
-
-    document.getElementById("quotation").innerHTML = Quotation[whichQuotation];
-
-    document.getElementById("quotation2").innerHTML = Quotation2[whichQuotation2];
-}
-
-showQuotation();
-</script>
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-47339612-2', 'dayzbuddy.com');
-  ga('send', 'pageview');
-
-    </script>
-    <script>
-
-        jQuery(function($){
-            var socket = io.connect();
-            var $nickForm = $('#setNick');
-            var $nickError = $('#nickError');
-            var $nickBox = $('#nickname');
-            var $chatForm = $('#SubmitMessage');
-            var $messageBox = $('#message');
-            var $users = $('#users');
-            var $chat = $('#chatWrap');
-            var $loader = $('#loadWrap');
-            var $chatWrap = $('#contentWrap')
-
-
-            // Sanitize user input
-
-            // (function($) {
-            //  $.sanitize = function(input) {
-            //     var SubmitMessage = input.replace(/<script[^>]*?>.*?<\/script>/gi, '').
-            //         replace(/<[\/\!]*?[^<>]*?>/gi, '').
-            //         replace(/<style[^>]*?>.*?<\/style>/gi, '').
-            //         replace(/<![\s\S]*?--[ \t\n\r]*>/gi, '');
-            //         return SubmitMessage;
-            //     };
-            //     })(jQuery);
-
-            //     $(function() {
-            //         $('#sanitize').click(function() {
-            //             var $input = $('#input').val();
-            //             $('#SubmitMessage').text($.sanitize($input));
-            //         });
-
-            //     });
-
-            // Login
-
-            $nickForm.submit(function(e){
-                e.preventDefault();
-
-                if ($nickBox.val().trim()){
-                    socket.emit('new user', $nickBox.val(), function(data) {
-                        if(data){
-                            $('#nickWrap').hide();
-                            $loader.show();
-                         }
-                     });
-
-                    $nickBox.val('');
-                } else if ($nickBox.val() && !$nickBox.val().trim()) {
-                    $nickBox.val('');
-                }
-
-            });
-
-            // Message
-
-            $chatForm.submit(function(e){
-
-                if (!$messageBox.val()){
-
-                    e.preventDefault();
-                    $messageBox.val("")
-
-                } else{
-
-                    e.preventDefault();
-                    socket.emit('new message', $messageBox.val());
-                    $messageBox.val("");
-                }
-
-            });
-
-            socket.on('match found', function() {
-                $loader.hide();
-                $chatWrap.show();
-             });
-
-            // Print message
-
-            socket.on('broadcast', function(data){
-                $chat.append('<b> CupidBOT:</b> Match found, chatroom initialized <br/> <b>Suggested meetup location:</b> '+ data.location.name + ' <a target="_blank" href="  '+data.location.coords+'">Map</a><br>Now kiss!');
-
-            });
-
-            socket.on('send message', function(data){
-                $chat.append('<p><b>' + data.username + ': </b>' + data.msg + "</p>");
-                $chat.stop().animate({scrollTop: $chat[0].scrollHeight}, 800);
-            });
-        });
-
-
-
-    </script>
 
   </body>
 </html>

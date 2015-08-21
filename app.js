@@ -2,7 +2,7 @@ var express = require('express'),
 	app = express(),
 	server = require('http').createServer(app),
 	io = require('socket.io').listen(server);
-	
+
 // server.listen(process.env.PORT || 9000);
 
 // app.configure(function () {
@@ -25,23 +25,23 @@ app.get('/', function(req, res){
 
 var MeetLocation = [
 	{
-		name: "kamyshovo", 
+		name: "kamyshovo",
 		coords: "http://dayzdb.com/map/chernarusplus#7.120.119"
 	},
 	{
-		name: "Docks in Solnichniy", 
+		name: "Docks in Solnichniy",
 		coords: "http://dayzdb.com/map/chernarusplus#7.132.092"
 	},
 	{
-		name: "Farm above factory", 
+		name: "Farm above factory",
 		coords: "http://dayzdb.com/map/chernarusplus#7.129.083"
 	},
 	{
-		name: "Cap golova", 
+		name: "Cap golova",
 		coords: "http://dayzdb.com/map/chernarusplus#7.083.129"
 	},
 	{
-		name: "Farm above Three valleys", 
+		name: "Farm above Three valleys",
 		coords: "http://dayzdb.com/map/chernarusplus#6.123.100"
 	}
 ];
@@ -72,7 +72,7 @@ io.sockets.on('connection', function(socket){
 
 			io.sockets.in('lobby').emit('waiting for match', {});
 		}
-		
+
 		callback("YOLO");
 		return;
 	});
@@ -93,9 +93,5 @@ io.sockets.on('connection', function(socket){
 	socket.on('new message', function(data){
 		io.sockets.in(socket.room).emit('send message', {msg: data, username: socket.username});
 	});
-	
+
 });
-
-
-
-	
