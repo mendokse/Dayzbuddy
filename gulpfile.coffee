@@ -3,16 +3,20 @@ gutil       = require 'gulp-util'
 rename      = require 'gulp-rename'
 browserify  = require 'browserify'
 watchify    = require 'watchify'
+coffeeify   = require 'coffeeify'
 source      = require 'vinyl-source-stream'
 { fork }    = require 'child_process'
 coffee      = require 'gulp-coffee'
 
 srcDir      = 'public/src/'
-entryFile   = 'index.js'
+entryFile   = 'index.coffee'
 entryPath   = srcDir + entryFile
 node        = null
 
-browserifyResult = browserify entryPath, paths: srcDir
+browserifyResult = browserify entryPath,
+    paths: srcDir
+    extensions: [ '.coffee' ]
+    transform: [ coffeeify ]
 
 bundleAndPipe = (result, cb) ->
     result
