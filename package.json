@@ -18,6 +18,7 @@
     "node": "0.10.x"
   },
   "scripts": {
-    "watch": "gulp watch"
+    "watch": "gulp watch",
+    "start": "gulp bundle && node app.js"
   }
 }

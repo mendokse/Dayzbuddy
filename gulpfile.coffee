@@ -11,6 +11,19 @@ entryFile   = 'index.js'
 entryPath   = srcDir + entryFile
 node        = null
 
+browserifyResult = browserify entryPath, paths: srcDir
+
+bundleAndPipe = (result, cb) ->
+    result
+    .bundle()
+    .on 'error', gutil.log
+    .pipe source entryFile
+    .pipe rename
+        extname: '.bundle.js'
+    .pipe gulp.dest 'public/bundles/'
+
+gulp.task 'bundle', -> bundleAndPipe browserifyResult
+
 gulp.task 'start-server', (cb) ->
     node?.kill()
     node = fork 'app.js', stdio: 'inherit'
@@ -18,21 +31,15 @@ gulp.task 'start-server', (cb) ->
 
 gulp.task 'watch', ['start-server'], ->
 
-    # Assets will be bundled when calling `.bundle()` on this object
-    bundler = watchify browserify entryPath, paths: srcDir
+    bundler = watchify browserifyResult
+
+    bundler
     .on 'update', (file) ->
         gutil.log "#{file} changed"
-        bundle() # When one the files changes, bundle again
+        bundleAndPipe bundler
     .on 'log', gutil.log
 
-    # Bundles and handles moving of source files to the destination
-    do bundle = ->
-        bundler.bundle()
-        .on 'error', gutil.log
-        .pipe source entryFile
-        .pipe rename
-            extname: '.bundle.js'
-        .pipe gulp.dest 'public/bundles/'
+    bundleAndPipe bundler
 
     gulp.watch 'app.js', ['start-server']
 
