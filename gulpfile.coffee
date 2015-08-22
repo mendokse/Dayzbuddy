@@ -5,6 +5,7 @@ browserify  = require 'browserify'
 watchify    = require 'watchify'
 source      = require 'vinyl-source-stream'
 { fork }    = require 'child_process'
+coffee      = require 'gulp-coffee'
 
 srcDir      = 'public/src/'
 entryFile   = 'index.js'
@@ -22,14 +23,21 @@ bundleAndPipe = (result, cb) ->
         extname: '.bundle.js'
     .pipe gulp.dest 'public/bundles/'
 
-gulp.task 'bundle', -> bundleAndPipe browserifyResult
+gulp.task 'prepare', [ 'compile-server' ], -> bundleAndPipe browserifyResult
 
-gulp.task 'start-server', (cb) ->
+gulp.task 'compile-server', (cb) ->
+    gulp
+    .src 'app.coffee'
+    .pipe coffee { bare: yes }
+    .on 'error', gutil.log
+    .pipe gulp.dest 'lib'
+
+gulp.task 'start-server', [ 'compile-server' ], (cb) ->
     node?.kill()
-    node = fork 'app.js', stdio: 'inherit'
+    node = fork 'lib/app.js', stdio: 'inherit'
     cb()
 
-gulp.task 'watch', ['start-server'], ->
+gulp.task 'watch', [ 'start-server'], ->
 
     bundler = watchify browserifyResult
 
@@ -41,7 +49,7 @@ gulp.task 'watch', ['start-server'], ->
 
     bundleAndPipe bundler
 
-    gulp.watch 'app.js', ['start-server']
+    gulp.watch 'app.coffee', [ 'start-server' ]
 
 # If the gulp process closes unexpectedly, kill the server
 process.on 'exit', -> node?.kill()
