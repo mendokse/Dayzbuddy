@@ -58,4 +58,9 @@ function showQuotation(){
     document.getElementById("quotation2").innerHTML = Quotation2[whichQuotation2];
 }
 
+$('#randomize').click(function() {
+    showQuotation();
+    return false;
+})
+
 showQuotation();
