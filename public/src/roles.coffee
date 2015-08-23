@@ -1,3 +1,5 @@
+$ = require 'jquery'
+
 # Role
 Quotation = [
     '<h5>Character: Drunk russian</h5> <p>You have consumed enough alcohol to kill an ordinary man. But you are russian, yes. Behave irrationally and have moodswings</p>'

@@ -1,3 +1,5 @@
+$ = require 'jquery'
+
 require 'roles'
 
 socket = io()
@@ -12,6 +14,8 @@ $(document).ready ->
     $chat = $('#chatWrap')
     $loader = $('#loadWrap')
     $chatWrap = $('#contentWrap')
+
+    # $loader.hide()
 
     # Sanitize user input
     # (function($) {
@@ -45,6 +49,7 @@ $(document).ready ->
         return
     # Message
     $chatForm.submit (e) ->
+        debugger
         if !$messageBox.val()
             e.preventDefault()
             $messageBox.val ''
@@ -53,15 +58,15 @@ $(document).ready ->
             socket.emit 'new message', $messageBox.val()
             $messageBox.val ''
         return
-    socket.on 'match found', ->
+    socket.on 'match found', (data) ->
+        console.log 'match found'
         $loader.hide()
         $chatWrap.show()
-        return
-    # Print message
-    socket.on 'broadcast', (data) ->
         $chat.append '<b> CupidBOT:</b> Match found, chatroom initialized <br/> <b>Suggested meetup location:</b> ' + data.location.name + ' <a target="_blank" href="  ' + data.location.coords + '">Map</a><br>Now kiss!'
         return
+
     socket.on 'send message', (data) ->
+        console.log 'got message'
         $chat.append '<p><b>' + data.username + ': </b>' + data.msg + '</p>'
         $chat.stop().animate { scrollTop: $chat[0].scrollHeight }, 800
         return

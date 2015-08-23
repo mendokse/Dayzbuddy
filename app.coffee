@@ -47,20 +47,20 @@ io.on 'connection', (socket) ->
         rooms = io.sockets.adapter.rooms
         socket.username = data
         if 'lobby' of rooms #and io.sockets.clients('lobby') and io.sockets.clients('lobby').length == 1
-            newRoom = (Math.random() + 1).toString(36).substring(2)
-            # socket.join socket.room
+            socket.room = (Math.random() + 1).toString(36).substring(2)
+            socket.join socket.room
             # console.log socket.username + ' joined room ', socket.room
 
             _(io.sockets.in('lobby').connected)
             .each (s) ->
                 debugger
                 s.leave 'lobby'
-                s.join newRoom
-                console.log "#{s.username} moved to #{newRoom}"
+                s.join socket.room
+                console.log "#{s.username} moved to #{socket.room}"
             .value()
 
-            io.sockets.in newRoom
-            .emit 'match found'
+            io.sockets.in socket.room
+            .emit 'match found', { location: GetMeetLocation() }
 
         else
             socket.join 'lobby'
