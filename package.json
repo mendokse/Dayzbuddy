@@ -21,6 +21,7 @@
   },
   "scripts": {
     "watch": "gulp watch",
+    "watch-debug": "gulp watch-debug",
     "start": "gulp prepare && node lib/app.js"
   }
 }

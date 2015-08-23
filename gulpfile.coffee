@@ -37,12 +37,18 @@ gulp.task 'compile-server', (cb) ->
     .pipe gulp.dest 'lib'
 
 gulp.task 'start-server', [ 'compile-server' ], (cb) ->
-    node?.kill()
-    node = fork 'lib/app.js', stdio: 'inherit'
+    newServer
     cb()
 
-gulp.task 'watch', [ 'start-server'], ->
+gulp.task 'start-debug-server', [ 'compile-server' ], (cb) ->
+    newServer ['debug']
+    cb()
 
+newServer = (args=[]) ->
+    node?.kill()
+    node = fork 'lib/app.js', [], execArgv: args
+
+watchFn = ->
     bundler = watchify browserifyResult
 
     bundler
@@ -54,6 +60,10 @@ gulp.task 'watch', [ 'start-server'], ->
     bundleAndPipe bundler
 
     gulp.watch 'app.coffee', [ 'start-server' ]
+
+gulp.task 'watch', [ 'start-server'], watchFn
+
+gulp.task 'watch-debug', [ 'start-debug-server'], watchFn
 
 # If the gulp process closes unexpectedly, kill the server
 process.on 'exit', -> node?.kill()
