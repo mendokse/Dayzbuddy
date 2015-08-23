@@ -7,9 +7,6 @@ port = process.env.PORT or 9000
 GetMeetLocation = ->
     MeetLocation[Math.round(Math.random() * (MeetLocation.length - 1))]
 
-app.configure ->
-    app.set 'port', process.env.PORT or 9000
-
 app.use express.static(process.cwd() + '/public')
 
 app.get '/', (req, res) ->
