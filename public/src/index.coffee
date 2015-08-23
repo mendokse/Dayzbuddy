@@ -15,8 +15,6 @@ $(document).ready ->
     $loader = $('#loadWrap')
     $chatWrap = $('#contentWrap')
 
-    # $loader.hide()
-
     # Sanitize user input
     # (function($) {
     #  $.sanitize = function(input) {
@@ -49,7 +47,6 @@ $(document).ready ->
         return
     # Message
     $chatForm.submit (e) ->
-        debugger
         if !$messageBox.val()
             e.preventDefault()
             $messageBox.val ''
@@ -59,7 +56,6 @@ $(document).ready ->
             $messageBox.val ''
         return
     socket.on 'match found', (data) ->
-        console.log 'match found'
         $loader.hide()
         $chatWrap.show()
         $chat.append '<b> CupidBOT:</b> Match found, chatroom initialized <br/> <b>Suggested meetup location:</b> ' + data.location.name + ' <a target="_blank" href="  ' + data.location.coords + '">Map</a><br>Now kiss!'

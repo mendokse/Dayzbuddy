@@ -59,13 +59,15 @@ io.on 'connection', (socket) ->
                 console.log "#{s.username} moved to #{socket.room}"
             .value()
 
+            callback 'YOLO'
+
             io.sockets.in socket.room
             .emit 'match found', { location: GetMeetLocation() }
 
         else
             socket.join 'lobby'
             io.sockets.in('lobby').emit 'waiting for match', {}
-        callback 'YOLO'
+            callback 'YOLO'
         return
     socket.on 'move player', (data) ->
         socket.leave 'lobby'
