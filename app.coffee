@@ -1,12 +1,13 @@
 express = require('express')
 app = express()
 server = require('http').createServer(app)
+
+server.listen process.env.PORT or 9000
 io = require('socket.io').listen(server)
 
 GetMeetLocation = ->
     MeetLocation[Math.round(Math.random() * (MeetLocation.length - 1))]
 
-server.listen process.env.PORT or 9000
 app.configure ->
     app.set 'port', process.env.PORT or 9000
     app.use express.static(process.cwd() + '/public')
