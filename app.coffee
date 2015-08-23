@@ -40,6 +40,34 @@ MeetLocation = [
         coords: 'http://dayzdb.com/map/chernarusplus#6.123.100'
     }
 ]
-# Randomized codeword for teams
+
 io.on 'connection', (socket) ->
-    console.log 'connection made.'
+    socket.on 'new user', (data, callback) ->
+        rooms = io.sockets.adapter.rooms
+        socket.username = data
+        debugger
+        if 'lobby' of rooms #and io.sockets.clients('lobby') and io.sockets.clients('lobby').length == 1
+            socket.room = (Math.random() + 1).toString(36).substring(2)
+            socket.join socket.room
+            console.log socket.username + ' joined room ', socket.room
+            io.sockets.in('lobby').emit 'move player', room: socket.room
+        else
+            socket.join 'lobby'
+            io.sockets.in('lobby').emit 'waiting for match', {}
+        callback 'YOLO'
+        return
+    socket.on 'move player', (data) ->
+        socket.leave 'lobby'
+        socket.join data.room
+        console.log 'moved ' + socket.username + ' to room -> ', data.room
+        io.sockets.in(data.room).emit 'match found', room: room
+        return
+    socket.on 'match found', (data) ->
+        io.sockets.in(data.room).emit 'broadcast', location: GetMeetLocation()
+        return
+    socket.on 'new message', (data) ->
+        io.sockets.in(socket.room).emit 'send message',
+            msg: data
+            username: socket.username
+        return
+    return
