@@ -37,7 +37,7 @@ gulp.task 'compile-server', (cb) ->
     .pipe gulp.dest 'lib'
 
 gulp.task 'start-server', [ 'compile-server' ], (cb) ->
-    newServer
+    newServer()
     cb()
 
 gulp.task 'start-debug-server', [ 'compile-server' ], (cb) ->
@@ -59,11 +59,13 @@ watchFn = ->
 
     bundleAndPipe bundler
 
+gulp.task 'watch', [ 'start-server' ], ->
+    watchFn()
     gulp.watch 'app.coffee', [ 'start-server' ]
 
-gulp.task 'watch', [ 'start-server'], watchFn
-
-gulp.task 'watch-debug', [ 'start-debug-server'], watchFn
+gulp.task 'watch-debug', [ 'start-debug-server' ], ->
+    watchFn()
+    gulp.watch 'app.coffee', [ 'start-debug-server' ]
 
 # If the gulp process closes unexpectedly, kill the server
 process.on 'exit', -> node?.kill()
