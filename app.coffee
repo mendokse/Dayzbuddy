@@ -3,6 +3,7 @@ app = express()
 http = require('http').Server app
 io = require('socket.io') http
 port = process.env.PORT or 9000
+_ = require 'lodash'
 
 GetMeetLocation = ->
     MeetLocation[Math.round(Math.random() * (MeetLocation.length - 1))]
@@ -45,12 +46,22 @@ io.on 'connection', (socket) ->
     socket.on 'new user', (data, callback) ->
         rooms = io.sockets.adapter.rooms
         socket.username = data
-        debugger
         if 'lobby' of rooms #and io.sockets.clients('lobby') and io.sockets.clients('lobby').length == 1
-            socket.room = (Math.random() + 1).toString(36).substring(2)
-            socket.join socket.room
-            console.log socket.username + ' joined room ', socket.room
-            io.sockets.in('lobby').emit 'move player', room: socket.room
+            newRoom = (Math.random() + 1).toString(36).substring(2)
+            # socket.join socket.room
+            # console.log socket.username + ' joined room ', socket.room
+
+            _(io.sockets.in('lobby').connected)
+            .each (s) ->
+                debugger
+                s.leave 'lobby'
+                s.join newRoom
+                console.log "#{s.username} moved to #{newRoom}"
+            .value()
+
+            io.sockets.in newRoom
+            .emit 'match found'
+
         else
             socket.join 'lobby'
             io.sockets.in('lobby').emit 'waiting for match', {}
