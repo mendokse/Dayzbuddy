@@ -53,7 +53,6 @@ io.on 'connection', (socket) ->
 
             _(io.sockets.in('lobby').connected)
             .each (s) ->
-                debugger
                 s.leave 'lobby'
                 s.join socket.room
                 console.log "#{s.username} moved to #{socket.room}"
@@ -79,7 +78,8 @@ io.on 'connection', (socket) ->
         io.sockets.in(data.room).emit 'broadcast', location: GetMeetLocation()
         return
     socket.on 'new message', (data) ->
-        io.sockets.in(socket.room).emit 'send message',
+        io.sockets
+        .emit 'send message',
             msg: data
             username: socket.username
         return
