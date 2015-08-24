@@ -14,6 +14,11 @@ $(document).ready ->
     $chat = $('#chatWrap')
     $loader = $('#loadWrap')
     $chatWrap = $('#contentWrap')
+    $findBuddy = $('#find-buddy')
+
+    $('#find-buddy').click ->
+        $findBuddy.submit()
+        return false
 
     # Sanitize user input
     # (function($) {
