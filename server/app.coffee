@@ -4,9 +4,7 @@ http = require('http').Server app
 io = require('socket.io') http
 port = process.env.PORT or 9000
 _ = require 'lodash'
-
-GetMeetLocation = ->
-    MeetLocation[Math.round(Math.random() * (MeetLocation.length - 1))]
+{ getMeetLocation } = require './meetup'
 
 app.use express.static(process.cwd() + '/public')
 
@@ -17,30 +15,6 @@ app.get '/', (req, res) ->
 http.listen port, ->
     console.log "listening on port #{port}"
     return
-
-# Meetuplocations
-MeetLocation = [
-    {
-        name: 'kamyshovo'
-        coords: 'http://dayzdb.com/map/chernarusplus#7.120.119'
-    }
-    {
-        name: 'Docks in Solnichniy'
-        coords: 'http://dayzdb.com/map/chernarusplus#7.132.092'
-    }
-    {
-        name: 'Farm above factory'
-        coords: 'http://dayzdb.com/map/chernarusplus#7.129.083'
-    }
-    {
-        name: 'Cap golova'
-        coords: 'http://dayzdb.com/map/chernarusplus#7.083.129'
-    }
-    {
-        name: 'Farm above Three valleys'
-        coords: 'http://dayzdb.com/map/chernarusplus#6.123.100'
-    }
-]
 
 newRoom = null
 mainRoom = 'lobby'
@@ -74,7 +48,7 @@ io.on 'connection', (socket) ->
             callback 'YOLO'
 
             io.sockets.in newRoom
-            .emit 'match found', { location: GetMeetLocation() }
+            .emit 'match found', { location: getMeetLocation() }
 
         else
             socket.join mainRoom

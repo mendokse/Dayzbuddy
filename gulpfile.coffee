@@ -13,6 +13,8 @@ entryFile   = 'index.coffee'
 entryPath   = srcDir + entryFile
 node        = null
 
+serverFiles = 'server/*.coffee'
+
 browserifyResult = browserify entryPath,
     paths: srcDir
     extensions: [ '.coffee' ]
@@ -31,7 +33,7 @@ gulp.task 'prepare', [ 'compile-server' ], -> bundleAndPipe browserifyResult
 
 gulp.task 'compile-server', (cb) ->
     gulp
-    .src 'app.coffee'
+    .src serverFiles
     .pipe coffee { bare: yes }
     .on 'error', gutil.log
     .pipe gulp.dest 'lib'
@@ -61,11 +63,11 @@ watchFn = ->
 
 gulp.task 'watch', [ 'start-server' ], ->
     watchFn()
-    gulp.watch 'app.coffee', [ 'start-server' ]
+    gulp.watch serverFiles, [ 'start-server' ]
 
 gulp.task 'watch-debug', [ 'start-debug-server' ], ->
     watchFn()
-    gulp.watch 'app.coffee', [ 'start-debug-server' ]
+    gulp.watch serverFiles, [ 'start-debug-server' ]
 
 # If the gulp process closes unexpectedly, kill the server
 process.on 'exit', -> node?.kill()
