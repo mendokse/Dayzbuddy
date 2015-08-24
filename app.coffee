@@ -43,6 +43,7 @@ MeetLocation = [
 ]
 
 newRoom = null
+mainRoom = 'lobby'
 
 moveFromRoomTo = (socket, oldRoom, newRoom) ->
     socket.leave oldRoom
@@ -58,12 +59,14 @@ io.on 'connection', (socket) ->
     socket.on 'new user', (data, callback) ->
         rooms = io.sockets.adapter.rooms
         socket.username = data
-        if 'lobby' of rooms #and io.sockets.clients('lobby') and io.sockets.clients('lobby').length == 1
+
+        if mainRoom of rooms and _.size(rooms[mainRoom]) is 1
+
             newRoom = makeNewRandomRoom()
-            moveRoom = (s) -> moveFromRoomTo s, 'lobby', newRoom
+            moveRoom = (s) -> moveFromRoomTo s, mainRoom, newRoom
             moveRoom socket
 
-            _ io.nsps['/'].adapter.rooms['lobby']
+            _ rooms[mainRoom]
             .map (val, id) -> io.sockets.connected[id]
             .each (s) -> moveRoom s
             .value()
@@ -74,8 +77,11 @@ io.on 'connection', (socket) ->
             .emit 'match found', { location: GetMeetLocation() }
 
         else
-            socket.join 'lobby'
-            io.sockets.in('lobby').emit 'waiting for match', {}
+            socket.join mainRoom
+
+            io.sockets.in mainRoom
+            .emit 'waiting for match', {}
+
             callback 'YOLO'
 
     socket.on 'new message', (data) ->
