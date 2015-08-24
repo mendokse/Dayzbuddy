@@ -1,15 +1,17 @@
-express = require 'express'
-app = express()
-http = require('http').Server app
-io = require('socket.io') http
-port = process.env.PORT or 9000
-_ = require 'lodash'
+express     = require 'express'
+app         = express()
+http        = require('http').Server app
+io          = require('socket.io') http
+_           = require 'lodash'
+
 { getMeetLocation } = require './meetup'
 
-app.use express.static(process.cwd() + '/public')
+port = process.env.PORT ? 9000
+
+app.use express.static process.cwd() + '/public'
 
 app.get '/', (req, res) ->
-    res.sendfile process.cwd() + '/index.html'
+    res.sendFile process.cwd() + '/public/html/index.html'
     return
 
 http.listen port, ->
