@@ -42,45 +42,44 @@ MeetLocation = [
     }
 ]
 
+newRoom = null
+
+moveFromRoomTo = (socket, oldRoom, newRoom) ->
+    socket.leave oldRoom
+    socket.join newRoom
+    console.log "#{socket.username} moved to #{newRoom}"
+
+makeNewRandomRoom = ->
+    (Math.random() + 1)
+    .toString 36
+    .substring 2
+
 io.on 'connection', (socket) ->
     socket.on 'new user', (data, callback) ->
         rooms = io.sockets.adapter.rooms
         socket.username = data
         if 'lobby' of rooms #and io.sockets.clients('lobby') and io.sockets.clients('lobby').length == 1
-            socket.room = (Math.random() + 1).toString(36).substring(2)
-            socket.join socket.room
-            # console.log socket.username + ' joined room ', socket.room
+            newRoom = makeNewRandomRoom()
+            moveRoom = (s) -> moveFromRoomTo s, 'lobby', newRoom
+            moveRoom socket
 
-            _(io.sockets.in('lobby').connected)
-            .each (s) ->
-                s.leave 'lobby'
-                s.join socket.room
-                console.log "#{s.username} moved to #{socket.room}"
+            _ io.nsps['/'].adapter.rooms['lobby']
+            .map (val, id) -> io.sockets.connected[id]
+            .each (s) -> moveRoom s
             .value()
 
             callback 'YOLO'
 
-            io.sockets.in socket.room
+            io.sockets.in newRoom
             .emit 'match found', { location: GetMeetLocation() }
 
         else
             socket.join 'lobby'
             io.sockets.in('lobby').emit 'waiting for match', {}
             callback 'YOLO'
-        return
-    socket.on 'move player', (data) ->
-        socket.leave 'lobby'
-        socket.join data.room
-        console.log 'moved ' + socket.username + ' to room -> ', data.room
-        io.sockets.in(data.room).emit 'match found', room: room
-        return
-    socket.on 'match found', (data) ->
-        io.sockets.in(data.room).emit 'broadcast', location: GetMeetLocation()
-        return
+
     socket.on 'new message', (data) ->
-        io.sockets
+        io.sockets.in newRoom
         .emit 'send message',
             msg: data
             username: socket.username
-        return
-    return
