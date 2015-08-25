@@ -121,7 +121,7 @@ exports.missions = _([
         give it to people who cross your path.'
     }
 ])
-.map (m) -> buildCharacter m.name, m.description
+.map (m) -> buildMission m.name, m.description
 .value()
 
 exports.randomize = (which) -> Math.round(Math.random() * (which.length - 1))
