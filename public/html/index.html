@@ -1,140 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Dayz buddy</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/socket.io/socket.io.js"></script>
-    <!-- Loading Bootstrap -->
-<!--     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
- -->
-    <!-- Loading Flat UI -->
-    <link href="css/flat-ui.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/body.css">
+	<head>
+		<meta charset="utf-8">
+		<title>DayZ Buddy</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="/socket.io/socket.io.js"></script>
+		<link href="css/flat-ui.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="css/body.css">
+	</head>
+	<body>
 
-<!--     <link rel="shortcut icon" href="images/favicon.ico">
- -->
+		<div class="bar0">
+			<div class="top-text"><h1>DayZ Buddy</h1></div>
+		</div>
 
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
-    <!--[if lt IE 9]>
-      <script src="js/html5shiv.js"></script>
-      <script src="js/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
+		<div class="bar-top">
+		</div>
 
-    <div class="bar0">
-        <div class="top-text"><h1>Dayz buddy</h1></div>
-    </div>
+		<div class="bar1">
+				<div class="find-buddy-wrapper" id="nickWrap">
+					<div class="login-form">
+						<h3>Tired of playing solo?</h3>
+						<p>This app will match you with another survivor and give you a suggested meetup location. Use the chat to decide wich server you will play on.</p>
+						<div class="form-group">
+							<form id="setNick">
+								<input autocomplete="off" type="text" class="form-control login-field" value="" placeholder="Enter your ingame name" id="nickname" />
+								<label class="login-field-icon fui-user" for="login-name"></label>
+								<br>
+								<a id="find-buddy" class="btn btn-primary btn-lg btn-block" href="#">Find buddy</a>
+							</form>
+						</div>
+					</div>
+				</div>
 
-    <div class="bar-top">
-    </div>
+				<div class="contentWrapper" id="loadWrap">
+					<img src="img/loading.png" class="load-img"></img>
+					<center><h6><b>Finding buddy</b></h6></center>
+				</div>
 
-    <div class="bar1">
-        <div class="find-buddy-wrapper" id="nickWrap">
-            <div class="login-form">
-                <h3>Tired of playing solo?</h3>
-                <p>This app will match you with another survivor and give you a suggested meetup location. Use the chat to decide wich server you will play on.</p>
-                    <div class="form-group">
+				<div class="contentWrapper" id="contentWrap">
+					<div class="chat" id="chatWrap"></div>
+					<div class="login-form">
+						<div class="form-group">
+							<form id="SubmitMessage">
+							<input autocomplete="off" type="text" class="form-control login-field" value="" placeholder="Chat" id="message" />
+							<label class="login-field-icon fui-chat" for="login-name"></label>
+							<br>
+							</form>
+						</div>
+					</div>
+				</div>
 
-                        <form id="setNick">
+		</div>
 
-                        <input autocomplete="off" type="text" class="form-control login-field" value="" placeholder="Enter your ingame name" id="nickname" />
+		<div class="bar2">
+			<div class="dayz-role-wrapper">
+				<h3 class="dayz-role-wrapper-text">Try some roleplay</h3>
+				<p class="dayz-role-wrapper-text">Get some stories worth posting on the interwebz and rake in that sweet sweet karma.</p>
+				<a id="randomize" class="btn btn-primary btn-lg btn-block" href="#">Randomize</a>
+				<br><br>
+				<div class="login-form">
+					<p id="characters"></p>
+					<p id="missions"></p>
+				</div>
+			</div>
+		</div>
+		<!-- /.container -->
+		<!-- Load JS here for greater good =============================-->
 
-                        <label class="login-field-icon fui-user" for="login-name"></label>
-                        <br>
-                        <a id="find-buddy" class="btn btn-primary btn-lg btn-block" href="#">Find buddy</a>
-
-                        </form>
-
-                    </div>
-            </div>
-        </div>
-
-        <div class="contentWrapper" id="loadWrap">
-            <img src="img/loading.png" class="load-img"></img>
-            <center><h6><b>Finding buddy</b></h6></center>
-        </div>
-
-
-        <div class="contentWrapper" id="contentWrap">
-
-            <div class="chat" id="chatWrap"></div>
-            <div class="login-form">
-
-                    <div class="form-group">
-
-                        <form id="SubmitMessage">
-
-                        <input autocomplete="off" type="text" class="form-control login-field" value="" placeholder="Chat" id="message" />
-
-                        <label class="login-field-icon fui-chat" for="login-name"></label>
-                        <br>
-
-
-                        </form>
-
-                    </div>
-            </div>
-        </div>
-<!--             <div id="contentWrap" >
-                <div class="login-form-white" id="chatWrap">
-                </div>
-                <div class="form-group">
-                    <br>
-                    <form id="SubmitMessage">
-
-                    <label class="login-field-icon fui-user" for="login-name"></label>
-
-                    <input autocomplete="off" type="text" class="form-control login-field" value="" placeholder="Chat" id="message" />
-
-
-                    </form>
-
-                </div> -->
-
-
-
-<!--             <div id="users"></div>
-            <p>Enter message:</p>
-            <form id="SubmitMessage">
-                <input size="35" id="message"></input><br><br>
-            <input type="submit"></input>
-            </form> -->
-
-            </div>
-
-    </div>
-
-
-
-    <div class="bar2">
-
-
-        <div class="dayz-role-wrapper">
-
-            <h3 class="dayz-role-wrapper-text">Try some roleplay</h3>
-
-            <p class="dayz-role-wrapper-text">Get some stories worth posting on the interwebz and rake in that sweet sweet karma.</p>
-
-            <a id="randomize" class="btn btn-primary btn-lg btn-block" href="#">Randomize</a>
-            <br><br>
-
-            <div class="login-form">
-                <p id="characters"></p>
-                <p id="missions"></p>
-            </div>
-
-        </div>
-    </div>
-    <!-- /.container -->
-
-
-    <!-- Load JS here for greater good =============================-->
-
-    <script src='bundles/index.bundle.js'></script>
-    <script src="vendor/bootstrap.min.js"></script>
-    <script src="socket.io/socket.io.js"></script>
-
-  </body>
+		<script src='bundles/index.bundle.js'></script>
+		<script src="vendor/bootstrap.min.js"></script>
+		<script src="socket.io/socket.io.js"></script>
+	</body>
 </html>
