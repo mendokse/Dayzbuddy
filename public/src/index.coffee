@@ -46,8 +46,10 @@ $(document).ready ->
         $chatWrap.show()
         $chat.append "\
             <b>CupidBOT:</b>Match found, chatroom initialized</br>\
-            <b>Suggested meetup location:</b> #{data.location.name}\
-            <a target='_blank' href='#{data.location.coords}'>Map</a>\
+            <b>Suggested meetup location: </b>\
+            <a target='_blank' href='#{data.location.coords}'>\
+                #{data.location.name}
+            </a>\
             <br>Now kiss!"
 
     sanitize = (input) ->
