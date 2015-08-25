@@ -19,23 +19,6 @@ $(document).ready ->
         $findBuddy.submit()
         return false
 
-    # Sanitize user input
-    # (function($) {
-    #  $.sanitize = function(input) {
-    #     var SubmitMessage = input.replace(/<script[^>]*?>.*?<\/script>/gi, '').
-    #         replace(/<[\/\!]*?[^<>]*?>/gi, '').
-    #         replace(/<style[^>]*?>.*?<\/style>/gi, '').
-    #         replace(/<![\s\S]*?--[ \t\n\r]*>/gi, '');
-    #         return SubmitMessage;
-    #     };
-    #     })(jQuery);
-    #     $(function() {
-    #         $('#sanitize').click(function() {
-    #             var $input = $('#input').val();
-    #             $('#SubmitMessage').text($.sanitize($input));
-    #         });
-    #     });
-
     $nickForm.submit (e) ->
         e.preventDefault()
         if $nickBox.val().trim()
@@ -61,13 +44,24 @@ $(document).ready ->
     socket.on 'match found', (data) ->
         $loader.hide()
         $chatWrap.show()
-        $chat.append '<b> CupidBOT:</b> Match found, chatroom initialized <br/\
+        $chat.append \
+            '<b> CupidBOT:</b> Match found, chatroom initialized <br/\
         > <b>Suggested meetup location:</b> ' + data.location.name + ' <a targ\
         et="_blank" href="  ' + data.location.coords + '">Map</a><br>Now kiss!'
 
+    sanitize = (input) ->
+        input.replace(/<script[^>]*?>.*?<\/script>/gi, '')
+            .replace(/<[\/\!]*?[^<>]*?>/gi, '')
+            .replace(/<style[^>]*?>.*?<\/style>/gi, '')
+            .replace(/<![\s\S]*?--[ \t\n\r]*>/gi, '')
+
     socket.on 'send message', (data) ->
         console.log 'got message'
-        $chat.append '<p><b>' + data.username + ': </b>' + data.msg + '</p>'
+        $chat.append \
+            "<p>\
+                <b> #{sanitize data.username}: </b>\
+                #{sanitize data.msg}\
+            </p>"
         $chat.stop().animate { scrollTop: $chat[0].scrollHeight }, 800
 
     { characters, missions, randomize } = roles
