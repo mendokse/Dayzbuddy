@@ -44,10 +44,11 @@ $(document).ready ->
     socket.on 'match found', (data) ->
         $loader.hide()
         $chatWrap.show()
-        $chat.append \
-            '<b> CupidBOT:</b> Match found, chatroom initialized <br/\
-        > <b>Suggested meetup location:</b> ' + data.location.name + ' <a targ\
-        et="_blank" href="  ' + data.location.coords + '">Map</a><br>Now kiss!'
+        $chat.append "\
+            <b>CupidBOT:</b>Match found, chatroom initialized</br>\
+            <b>Suggested meetup location:</b> #{data.location.name}\
+            <a target='_blank' href='#{data.location.coords}'>Map</a>\
+            <br>Now kiss!"
 
     sanitize = (input) ->
         input.replace(/<script[^>]*?>.*?<\/script>/gi, '')
@@ -57,9 +58,9 @@ $(document).ready ->
 
     socket.on 'send message', (data) ->
         console.log 'got message'
-        $chat.append \
-            "<p>\
-                <b> #{sanitize data.username}: </b>\
+        $chat.append "\
+            <p>\
+                <b>#{sanitize data.username}: </b>\
                 #{sanitize data.msg}\
             </p>"
         $chat.stop().animate { scrollTop: $chat[0].scrollHeight }, 800
