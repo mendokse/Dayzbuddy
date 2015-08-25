@@ -1,20 +1,19 @@
-window.jQuery = $ = require 'jquery'
-
-require 'roles'
-
+window.jQuery = $   = require 'jquery'
+roles               = require 'roles'
 socket = io()
+
 $(document).ready ->
 
-    $nickForm = $('#setNick')
-    $nickError = $('#nickError')
-    $nickBox = $('#nickname')
-    $chatForm = $('#SubmitMessage')
+    $nickForm   = $('#setNick')
+    $nickError  = $('#nickError')
+    $nickBox    = $('#nickname')
+    $chatForm   = $('#SubmitMessage')
     $messageBox = $('#message')
-    $users = $('#users')
-    $chat = $('#chatWrap')
-    $loader = $('#loadWrap')
-    $chatWrap = $('#contentWrap')
-    $findBuddy = $('#find-buddy')
+    $users      = $('#users')
+    $chat       = $('#chatWrap')
+    $loader     = $('#loadWrap')
+    $chatWrap   = $('#contentWrap')
+    $findBuddy  = $('#find-buddy')
 
     $('#find-buddy').click ->
         $findBuddy.submit()
@@ -36,7 +35,6 @@ $(document).ready ->
     #             $('#SubmitMessage').text($.sanitize($input));
     #         });
     #     });
-    # Login
 
     $nickForm.submit (e) ->
         e.preventDefault()
@@ -49,8 +47,7 @@ $(document).ready ->
             $nickBox.val ''
         else if $nickBox.val() and !$nickBox.val().trim()
             $nickBox.val ''
-        return
-    # Message
+
     $chatForm.submit (e) ->
         if !$messageBox.val()
             e.preventDefault()
@@ -60,15 +57,25 @@ $(document).ready ->
             socket.emit 'new message', $messageBox.val()
             $messageBox.val ''
         return
+
     socket.on 'match found', (data) ->
         $loader.hide()
         $chatWrap.show()
-        $chat.append '<b> CupidBOT:</b> Match found, chatroom initialized <br/> <b>Suggested meetup location:</b> ' + data.location.name + ' <a target="_blank" href="  ' + data.location.coords + '">Map</a><br>Now kiss!'
-        return
+        $chat.append '<b> CupidBOT:</b> Match found, chatroom initialized <br/\
+        > <b>Suggested meetup location:</b> ' + data.location.name + ' <a targ\
+        et="_blank" href="  ' + data.location.coords + '">Map</a><br>Now kiss!'
 
     socket.on 'send message', (data) ->
         console.log 'got message'
         $chat.append '<p><b>' + data.username + ': </b>' + data.msg + '</p>'
         $chat.stop().animate { scrollTop: $chat[0].scrollHeight }, 800
-        return
-    return
+
+    { characters, missions, randomize } = roles
+
+    do showQuotation = ->
+        $('#characters').html characters[randomize characters]
+        $('#missions').html missions[randomize missions]
+
+    $('#randomize').click ->
+        showQuotation()
+        false

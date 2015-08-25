@@ -1,4 +1,3 @@
-$ = require 'jquery'
 _ = require 'lodash'
 
 buildCharacter = (character, description) ->
@@ -7,7 +6,7 @@ buildCharacter = (character, description) ->
 buildMission = (mission, description) ->
     "<h5>Mission: #{mission}</h5> <p>#{description}</p>"
 
-characters = _([
+exports.characters = _([
     {
         name: 'Drunk Russian'
         description: 'You have consumed enough alcohol to kill an ordinary man\
@@ -65,7 +64,7 @@ characters = _([
 .map (c) -> buildCharacter c.name, c.description
 .value()
 
-missions = _([
+exports.missions = _([
     {
         name: 'Bookseller'
         description: 'Collect books and setup up shop in a town or become a tr\
@@ -122,15 +121,7 @@ missions = _([
         give it to people who cross your path.'
     }
 ])
-.map (c) -> buildCharacter c.name, c.description
+.map (m) -> buildCharacter m.name, m.description
 .value()
 
-randomize = (which) -> Math.round(Math.random() * (which.length - 1))
-
-do showQuotation = ->
-    $('#characters').html characters[randomize characters]
-    $('#missions').html missions[randomize missions]
-
-$('#randomize').click ->
-    showQuotation()
-    false
+exports.randomize = (which) -> Math.round(Math.random() * (which.length - 1))
