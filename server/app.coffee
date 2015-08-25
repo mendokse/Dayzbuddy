@@ -43,8 +43,7 @@ io.on 'connection', (socket) ->
             moveRoom socket
 
             _ rooms[mainRoom]
-            .map (val, id) -> io.sockets.connected[id]
-            .each (s) -> moveRoom s
+            .map (val, id) ->  moveRoom io.sockets.connected[id]
             .value()
 
             callback 'YOLO'
