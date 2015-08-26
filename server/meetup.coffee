@@ -1,7 +1,7 @@
 # Meetuplocations
 meetLocations = [
     {
-        name: 'kamyshovo'
+        name: 'Kamyshovo'
         coords: 'http://dayzdb.com/map/chernarusplus#7.120.119'
     }
     {
@@ -13,7 +13,7 @@ meetLocations = [
         coords: 'http://dayzdb.com/map/chernarusplus#7.129.083'
     }
     {
-        name: 'Cap golova'
+        name: 'Cap Golova'
         coords: 'http://dayzdb.com/map/chernarusplus#7.083.129'
     }
     {
